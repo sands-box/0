@@ -1,0 +1,246 @@
+:root {
+    --bg-color: #1a1e23;
+    --primary-text: #e0e0e0;
+    --highlight-color: #ffc107;
+    --card-bg: #2c313a;
+    --border-color: #444;
+    --correct-color: #28a745;
+    --wrong-color: #dc3545;
+    --completed-color: #4caf50;
+    --font-narrative: 'Special Elite', monospace;
+    --font-ui: 'Roboto Mono', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-ui);
+    background-color: var(--bg-color);
+    color: var(--primary-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    justify-content: center;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-narrative);
+    color: var(--highlight-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.game-button {
+    font-family: var(--font-ui);
+    font-size: 1rem;
+    font-weight: 700;
+    background-color: var(--highlight-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.game-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(255,193,7,0.4);
+}
+
+.game-button:disabled {
+    background-color: #555 !important;
+    color: #999 !important;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    width: 100%;
+}
+
+/* --- SPLASH SCREEN --- */
+#splash-screen h1 { font-size: 3.5rem; letter-spacing: 4px; }
+#splash-screen h1 span { display: inline-block; }
+#splash-icon { color: var(--highlight-color); margin-bottom: 20px; }
+
+/* --- PROLOG INTERAKTIF --- */
+#intro-cutscene-screen { background: var(--bg-color); justify-content: center; }
+.intro-scene { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: absolute; }
+.intro-card { max-width: 800px; text-align: center; }
+.scene-content { max-width: 800px; text-align: center; }
+.scene-location { font-family: var(--font-narrative); font-style: italic; color: #aaa; margin-bottom: 40px; }
+#ringing-phone { color: var(--highlight-color); margin-bottom: 20px; }
+/* Animasi telepon berdering ditangani oleh GSAP di main.js */
+.scene-narrator { color: #ccc; font-style: italic; margin-bottom: 40px; }
+.dialog-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 30px 40px; text-align: left; }
+.dialog-speaker { font-family: var(--font-narrative); color: var(--highlight-color); margin-bottom: 15px; font-size: 1.2rem; }
+.dialog-text { font-family: var(--font-ui); font-size: 1.5rem; line-height: 1.8; min-height: 2.5rem; }
+
+/* --- MENU UTAMA ELEGAN --- */
+#main-menu-screen h1 { margin-bottom: 40px; }
+.main-menu-container { display: flex; gap: 30px; margin-top: 20px; flex-wrap: wrap; justify-content: center; align-items: center; }
+.menu-option-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 8px; width: 300px; min-height: 220px; cursor: pointer; transition: transform .3s ease-out, box-shadow .3s ease-out; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+.menu-option-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 15px 30px rgba(0,0,0,0.7); border-color: var(--highlight-color); }
+.menu-option-card i { margin-bottom: 20px; color: var(--highlight-color); font-size: 3.5rem; transition: transform 0.3s ease-out; }
+.menu-option-card:hover i { transform: scale(1.1); }
+.menu-option-card h3 { margin-bottom: 10px; font-size: 1.3rem; }
+.menu-option-card p { font-size: .9rem; color: #ccc; line-height: 1.5; }
+
+/* --- PEMILIHAN BAB & PAPAN KASUS --- */
+#chapter-select-screen, #case-board-screen { justify-content: flex-start; padding-top: 20px; padding-bottom: 20px; overflow-y: auto; }
+.header-bar { width: 90%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+#chapter-container { display: flex; flex-direction: column; gap: 25px; width: 90%; max-width: 900px; margin-top: 30px; }
+.chapter-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 25px; border-radius: 8px; display: flex; align-items: center; gap: 25px; cursor: pointer; transition: transform .3s ease-out, box-shadow .3s ease-out; }
+.chapter-card:hover { transform: translateX(10px); box-shadow: 0 10px 25px rgba(0,0,0,0.6); border-color: var(--highlight-color); }
+.chapter-icon { font-size: 3rem; color: var(--highlight-color); }
+.chapter-info h3 { text-align: left; margin-bottom: 5px; }
+.chapter-info p { text-align: left; color: #ccc; font-size: .9rem; }
+#case-board-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; width: 90%; max-width: 1200px; margin: 20px auto; }
+.case-file { background-color: var(--card-bg); border: 1px solid var(--border-color); padding: 20px; border-radius: 8px; cursor: pointer; transition: transform .2s, box-shadow .2s; display: flex; flex-direction: column; justify-content: center; align-items: center; aspect-ratio: 1 / 1; min-height: 180px; }
+.case-file:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.5); }
+.case-file.completed .case-icon { color: var(--completed-color); }
+.case-icon { font-size: 3rem; margin-bottom: 15px; flex-shrink: 0; }
+.case-title { font-size: 1rem; font-weight: 700; }
+
+/* --- BRIEFING & LAYOUT GAMEPLAY --- */
+#briefing-screen { justify-content: center; }
+.briefing-card { width: 90%; max-width: 700px; text-align: left; }
+#briefing-screen hr { border-color: var(--border-color); margin: 15px 0; }
+#briefing-text { font-family: var(--font-narrative); font-size: 1.5rem; line-height: 1.8; min-height: 250px; }
+#briefing-text p { opacity: 0; }
+
+#game-screen { padding: 0; justify-content: center; align-items: center; }
+#game-container { display: grid; grid-template-columns: 450px 1fr; gap: 20px; width: 95%; height: 95%; max-width: 1600px; max-height: 900px; padding: 20px; background-color: rgba(0,0,0,0.2); border-radius: 10px; }
+.panel { display: flex; flex-direction: column; gap: 20px; height: 100%; overflow: hidden; }
+#left-panel .card { display: flex; flex-direction: column; }
+#case-info-card { flex-grow: 1; }
+#case-briefing { flex-grow: 1; text-align: left; font-size: 1.1rem; overflow-y: auto; padding-right: 15px; max-height: 450px; }
+.equation { font-size: 1.2rem; background-color: rgba(0,0,0,0.3); padding: 10px; border-radius: 5px; margin: 10px 0; text-align: center; }
+#right-panel .card { flex-grow: 1; display: flex; flex-direction: column; }
+.game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0; }
+.game-header .game-button { padding: 8px 12px; margin: 0 5px; }
+
+/* --- WORKSPACE SERBAGUNA --- */
+.workspace-controls { display: flex; align-items: center; gap: 10px; }
+.view-toggle-btn { background: var(--card-bg); color: var(--primary-text); border: 1px solid var(--border-color); padding: 8px 12px; margin: 0 !important; }
+.view-toggle-btn.active { background: var(--highlight-color); color: var(--bg-color); border-color: var(--highlight-color); }
+#workspace-container { flex-grow: 1; position: relative; border: 2px solid var(--border-color); border-radius: 8px; overflow: hidden; background: #111; transition: all 0.3s ease-in-out; }
+.workspace-view { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+#workspace-container.fullscreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 2000; border-radius: 0; border: none; }
+#workspace-container.fullscreen #exit-fullscreen-btn { display: inline-block; }
+#workspace-container:not(.fullscreen) #exit-fullscreen-btn { display: none; }
+#workspace-container.fullscreen #fullscreen-btn { display: none; }
+#canvas-2d-container { background: #222; }
+canvas { display: block; }
+#map-canvas { cursor: grab; }
+#map-canvas:active { cursor: grabbing; }
+#blackboard { background: #222; padding: 20px; font-family: var(--font-ui); font-size: 1.2rem; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 20px; width: 100%; height: 100%; }
+
+/* --- UI INPUT & INTERAKTIF --- */
+#answer-form { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: center; margin-top: 10px; }
+#answer-form input { width: 70px; height: 45px; font-size: 1.5rem; text-align: center; background-color: var(--bg-color); color: var(--primary-text); border: 2px solid var(--border-color); border-radius: 5px; }
+#answer-form button { margin: 0; }
+#multiple-choice-answers { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 20px; }
+#feedback-area { margin-top: 15px; font-weight: 700; height: 30px; font-size: 1.1rem; }
+.correct { color: var(--correct-color); }
+.wrong { color: var(--wrong-color); }
+
+/* --- MODALS & CUTSCENES --- */
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+.modal-content { width: 90%; max-width: 600px; padding: 30px; text-align: left; }
+.modal-content h2 { text-align: center; margin-bottom: 20px; }
+.modal-content p, .modal-content li { margin-bottom: 10px; line-height: 1.6; }
+.modal-content ul { padding-left: 20px; }
+.button-group { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+#custom-lab-ui { display: flex; flex-direction: column; gap: 15px; align-items: center; }
+#custom-lab-ui textarea, #custom-lab-ui input { width: 100%; background: var(--bg-color); color: var(--primary-text); border: 1px solid var(--border-color); border-radius: 5px; padding: 10px; font-family: var(--font-ui); }
+#custom-lab-ui textarea { height: 80px; }
+#cutscene-screen .card { background: rgba(0,0,0,0.8); border-color: var(--wrong-color); }
+.elimination-row, .substitution-row { display: flex; align-items: center; gap: 10px; width: 100%; margin: 10px 0; }
+.multipliers button { font-size: .8rem; padding: 5px; margin: 2px; min-width: 35px; }
+.equation-display { flex-grow: 1; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 5px; font-family: monospace; font-size: 1.4rem; text-align: center; }
+.sub-block { background: var(--highlight-color); color: var(--bg-color); padding: 2px 6px; border-radius: 4px; cursor: pointer; display: inline-block; transition: transform .2s; }
+.sub-block:hover { transform: scale(1.1); }
+.sub-target { outline: 2px dashed var(--highlight-color); border-radius: 4px; padding: 0 4px; }
+#eliminate-btn { background: var(--wrong-color); color: white; width: 100%; font-size: 1.2rem; margin-top: 15px; padding: 15px; }
+@media(max-width: 900px) { body { height: auto; min-height: 100vh; overflow-y: auto; } #game-screen { height: auto; padding: 20px 10px; align-items: flex-start; } #game-container { grid-template-columns: 1fr; height: auto; width: 100%; padding: 10px; } }
+/* #3: Perkecil font di layar briefing agar teks panjang muat */
+#briefing-text {
+    font-family: var(--font-narrative);
+    font-size: 1.3rem; /* Diperkecil dari 1.5rem */
+    line-height: 1.7; /* Sedikit dirapatkan */
+    min-height: 250px;
+}
+#briefing-text p {
+    opacity: 0;
+}
+
+/* #4: Pastikan gaya untuk tombol keluar fullscreen ada */
+#workspace-container.fullscreen #exit-fullscreen-btn {
+    display: inline-block; /* Tampilkan tombol exit */
+}
+#workspace-container:not(.fullscreen) #exit-fullscreen-btn {
+    display: none; /* Sembunyikan jika tidak fullscreen */
+}
+#workspace-container.fullscreen #fullscreen-btn {
+    display: none; /* Sembunyikan tombol enter fullscreen */
+}
+
+/* Tambahan kecil untuk memastikan ikon di tombol seimbang */
+.game-button i {
+    margin-right: 8px;
+}
+#exit-fullscreen-btn {
+    position: absolute; /* Posisikan relatif terhadap workspace */
+    top: 15px;
+    right: 15px;
+    z-index: 2001; /* Pastikan di atas semua elemen lain */
+}
+
+/* Sembunyikan tombol-tombol lain saat fullscreen */
+#workspace-container.fullscreen .game-header {
+    display: none;
+}
+#left-panel .card:last-child {
+    overflow-y: auto;
+}
+
+/* Penyesuaian kecil agar tombol di pilihan ganda tidak terlalu besar */
+#multiple-choice-answers .game-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+}

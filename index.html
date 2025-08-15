@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detektif SPLDV - V5.3 Final Build</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <!-- Layar Intro -->
+    <div id="splash-screen" class="screen">
+        <i id="splash-icon" class="fa-solid fa-fingerprint fa-4x"></i>
+        <h1 id="game-title">Detektif SPLDV</h1>
+        <p id="game-subtitle">Memecahkan Misteri dengan Logika dan Aljabar.</p>
+        <button id="start-game-btn" class="game-button">Mulai</button>
+    </div>
+
+    <!-- Cutscene Intro Cerita -->
+    <div id="intro-cutscene-screen" class="screen hidden">
+        <div class="intro-scene" id="scene-1">
+            <div class="scene-content">
+                <p class="scene-location">Kantor Detektif Alvis. Larut Malam.</p>
+                <i id="ringing-phone" class="fa-solid fa-phone-volume fa-5x"></i>
+                <p class="scene-narrator">[Telepon tua di atas meja berdering keras, memecah keheningan malam...]</p>
+                <button id="answer-phone-btn" class="game-button">Jawab Telepon</button>
+            </div>
+        </div>
+        <div class="intro-scene hidden" id="scene-2">
+            <div class="scene-content dialog-box">
+                <p class="dialog-speaker">Suara Misterius:</p>
+                <p class="dialog-text" id="dialog-line-1"></p>
+                <p class="dialog-text" id="dialog-line-2"></p>
+                <p class="dialog-text" id="dialog-line-3"></p>
+                <button id="continue-dialog-btn" class="game-button hidden">Lanjutkan...</button>
+            </div>
+        </div>
+        <div class="intro-scene hidden" id="scene-3">
+             <div class="scene-content dialog-box">
+                <p class="dialog-speaker">Detektif Alvis (Anda):</p>
+                <p class="dialog-text" id="alvis-line-1">"Aku mengerti. Kirimkan semua data yang kau punya."</p>
+                <p class="dialog-text" id="alvis-line-2">"Dalang Persamaan... permainannya akan segera berakhir."</p>
+                <button id="enter-office-btn" class="game-button">Masuk ke Kantor</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Utama -->
+    <div id="main-menu-screen" class="screen hidden">
+        <h1>Kantor Detektif Alvis</h1>
+        <div class="main-menu-container">
+            <div class="menu-option-card" id="archives-btn"><i class="fa-solid fa-folder-open fa-3x"></i><h3>Arsip Kasus</h3><p>Mulai investigasi dari kasus yang tersedia.</p></div>
+            <div class="menu-option-card" id="custom-lab-btn"><i class="fa-solid fa-flask-vial fa-3x"></i><h3>Laboratorium Kustom</h3><p>Buat, impor, atau ekspor soal latihan sendiri.</p></div>
+            <div class="menu-option-card" id="office-btn"><i class="fa-solid fa-user-tie fa-3x"></i><h3>Ruang Detektif</h3><p>Lihat tutorial permainan dan kredit tim.</p></div>
+        </div>
+    </div>
+
+    <!-- Layar Pemilihan Bab -->
+    <div id="chapter-select-screen" class="screen hidden">
+        <div class="header-bar"><button id="back-to-main-menu-from-chapter-btn" class="game-button"><i class="fa-solid fa-arrow-left"></i> Menu Utama</button><h1>ARSIP KASUS</h1></div>
+        <div id="chapter-container"></div>
+    </div>
+    
+    <!-- Layar Papan Kasus -->
+    <div id="case-board-screen" class="screen hidden">
+        <div class="header-bar"><button id="back-to-chapter-select-btn" class="game-button"><i class="fa-solid fa-arrow-left"></i> Pilih Bab</button><h1 id="main-title">PAPAN KASUS</h1></div>
+        <h2 id="chapter-title"></h2>
+        <div id="case-board-container"></div>
+    </div>
+
+    <!-- Layar Briefing -->
+    <div id="briefing-screen" class="screen hidden">
+        <div class="card briefing-card"><h2 id="briefing-title"></h2><hr><div id="briefing-text"></div><button id="continue-to-game-btn" class="game-button hidden">Lanjutkan Investigasi</button></div>
+    </div>
+
+    <!-- Layar Gameplay Utama -->
+    <div id="game-screen" class="screen hidden">
+        <div id="game-container">
+            <div id="left-panel" class="panel">
+                <div id="case-info-card" class="card"><div class="game-header"><h3 id="case-title"></h3><button id="back-to-board-btn" title="Kembali" class="game-button"><i class="fa-solid fa-arrow-left"></i></button></div><div id="case-briefing"></div></div>
+                <div class="card"><h3><i class="fa-solid fa-bullseye"></i> Masukkan Solusi</h3><form id="answer-form" onsubmit="event.preventDefault()"><label for="x-input">X:</label><input type="number" id="x-input" step="any"><label for="y-input">Y:</label><input type="number" id="y-input" step="any"><button id="submit-answer-btn" type="submit" class="game-button">Periksa</button></form><div id="multiple-choice-answers" class="hidden"></div><div id="feedback-area"></div></div>
+            </div>
+            <div id="right-panel" class="panel">
+                <div class="card"><div class="game-header"><h3 id="workspace-title"></h3><div class="workspace-controls"><div id="map-toggle-buttons" class="hidden"><button id="view-2d-btn" class="view-toggle-btn active" title="Tampilan Peta 2D"><i class="fa-solid fa-square"></i> 2D</button><button id="view-3d-btn" class="view-toggle-btn" title="Tampilan Peta 3D"><i class="fa-solid fa-cube"></i> 3D</button></div><button id="toggle-grid-btn" class="game-button hidden" title="Tampilkan/Sembunyikan Angka"><i class="fa-solid fa-calculator"></i></button><button id="hint-btn" title="Petunjuk" class="game-button"><i class="fa-solid fa-lightbulb"></i></button><button id="fullscreen-btn" title="Layar Penuh" class="game-button"><i class="fa-solid fa-expand"></i></button><button id="exit-fullscreen-btn" title="Keluar Layar Penuh" class="game-button hidden"><i class="fa-solid fa-compress"></i></button></div></div><div id="workspace-container" class="workspace"><div id="canvas-2d-container" class="workspace-view hidden"><canvas id="map-canvas"></canvas></div><div id="three-canvas-container" class="workspace-view hidden"></div><div id="blackboard-workspace" class="workspace-view hidden"><div id="blackboard"><div id="elimination-ui" style="width:100%"></div><div id="substitution-ui" style="width:100%"></div></div></div></div></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Layar Cutscene Naratif -->
+    <div id="cutscene-screen" class="screen hidden">
+        <div class="card intro-card">
+            <div id="cutscene-text"></div>
+            <!-- ID YANG BENAR ADA DI SINI -->
+            <button id="close-cutscene-btn" class="game-button">Lanjutkan...</button>
+        </div>
+    </div>
+
+    <!-- Semua Modal -->
+    <div id="custom-lab-modal" class="modal hidden"><div class="card modal-content"><h2><i class="fa-solid fa-flask-vial"></i> Laboratorium Kustom</h2><p>Buat soal SPLDV Anda sendiri. Masukkan dua persamaan dan solusinya.</p><div id="custom-lab-ui"><textarea id="custom-eq1" placeholder="Persamaan 1: 2x + 3y = 12"></textarea><textarea id="custom-eq2" placeholder="Persamaan 2: x - y = 1"></textarea><input type="number" id="custom-sol-x" placeholder="Solusi X: 3"><input type="number" id="custom-sol-y" placeholder="Solusi Y: 2"><div class="button-group"><button id="export-btn" class="game-button">Ekspor Soal</button><button id="import-btn" class="game-button">Impor Soal</button></div></div><button class="game-button" data-close>Tutup</button></div></div>
+    <div id="office-modal" class="modal hidden"><div class="card modal-content"><h2><i class="fa-solid fa-user-tie"></i> Ruang Detektif</h2><p>Pilih salah satu opsi di bawah ini.</p><div class="button-group"><button id="tutorial-btn" class="game-button"><i class="fa-solid fa-question-circle"></i> Cara Main</button><button id="credits-btn" class="game-button"><i class="fa-solid fa-users"></i> Kredit Tim</button></div><button class="game-button" data-close>Tutup</button></div></div>
+    <div id="tutorial-modal" class="modal hidden"><div class="card modal-content"><h2><i class="fa-solid fa-question-circle"></i> Cara Bermain</h2><p>Selamat datang, Detektif!</p><ul><li>Pilih sebuah kasus dari <strong>Arsip Kasus</strong>.</li><li>Baca <strong>Briefing Misi</strong> untuk memahami cerita.</li><li>Gunakan <strong>Antarmuka Analisis</strong> (Peta 2D/3D atau Papan Tulis Interaktif) untuk menyelesaikan masalah.</li><li>Untuk kasus Peta, perkirakan titik potongnya. Gunakan tombol 2D/3D untuk mengubah tampilan.</li><li>Untuk kasus Papan Tulis, ikuti instruksi untuk melakukan eliminasi atau substitusi.</li><li>Masukkan jawabanmu dan pecahkan semua kasus!</li></ul><button class="game-button" data-close>Mengerti</button></div></div>
+    <div id="credits-modal" class="modal hidden"><div class="card modal-content"><h2><i class="fa-solid fa-users"></i> Tim Pengembang</h2><p>Game "Detektif SPLDV" ini dipersembahkan oleh:</p><ul><li><strong>Muhammad Febby Angga</strong></li><li><strong>Mu'adz</strong></li><li><strong>Arsad Ikhsan</strong></li></ul><p>Dibuat dengan semangat untuk menjadikan matematika lebih hidup dan menyenangkan.</p><button class="game-button" data-close>Luar Biasa!</button></div></div>
+    <div id="hint-modal" class="modal hidden"><div class="card modal-content"><h2><i class="fa-solid fa-lightbulb"></i> Petunjuk Detektif</h2><p id="hint-text"></p><button class="game-button" data-close>Terima Kasih</button></div></div>
+    <div id="report-modal" class="modal hidden"><div class="card modal-content"><h2><i class="fa-solid fa-check-circle"></i> Laporan Kasus: SELESAI</h2><p id="report-text"></p><button class="game-button" data-close>Lanjut!</button></div></div>
+
+    <!-- Script Libraries -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+    <!-- Script Game -->
+      <script src="js/utils.js"></script> 
+    <script src="js/cases/bab1.js"></script>
+    <script src="js/audio-manager.js"></script> 
+    <script src="js/canvas-2d.js"></script> 
+    <script src="js/ui-interactive.js"></script>
+    <script src="js/three-scene.js"></script>
+    <script src="js/main.js"></script> 
+</body>
+</html>
